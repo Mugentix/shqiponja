@@ -2,10 +2,11 @@
 import React from 'react';
 import type { PersonaCardProps } from '../types';
 
-const PersonaCard: React.FC<PersonaCardProps> = ({ persona, name, tagline, icon, onSelect, isSelected }) => {
+const PersonaCard: React.FC<PersonaCardProps> = ({ persona, name, tagline, icon, onSelect, isSelected, dailyChallengeText }) => {
   return (
     <div 
       className={`
+        relative group
         bg-zinc-800/70 backdrop-blur-md rounded-2xl p-6 md:p-8 
         flex flex-col items-center text-center 
         shadow-2xl hover:shadow-red-800/40 
@@ -21,8 +22,12 @@ const PersonaCard: React.FC<PersonaCardProps> = ({ persona, name, tagline, icon,
       aria-label={`Zgjidh rolin: ${name}`}
       aria-pressed={isSelected}
     >
+      {dailyChallengeText && (
+        <div className="absolute top-3 right-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-semibold px-2.5 py-1 rounded-full shadow-lg transform transition-all duration-300 group-hover:scale-105 z-10">
+          ⚡ Sfidë e Ditës!
+        </div>
+      )}
       <div className={`w-20 h-20 md:w-24 md:h-24 mb-5 p-3 rounded-full flex items-center justify-center transition-colors duration-300 ${isSelected ? 'bg-red-600/20 text-red-400' : 'bg-zinc-700/50 text-stone-300 group-hover:text-red-500'}`}>
-        {/* Fix: Cast icon to React.ReactElement with a props type that includes className */}
         {React.cloneElement(icon as React.ReactElement<{ className?: string }>, { className: "w-12 h-12 md:w-14 md:h-14 transition-transform duration-300 group-hover:scale-110" })}
       </div>
       <h3 className="text-xl md:text-2xl font-semibold text-stone-100 mb-2 tracking-tight">{name}</h3>
