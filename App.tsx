@@ -539,7 +539,7 @@ const App: React.FC = () => {
               )
             );
           }
-          if (currentPersona === Persona.ANALISTI && chunk.candidates?.[0]?.groundingMetadata?.groundingChunks) {
+          if (chunk.candidates?.[0]?.groundingMetadata?.groundingChunks) {
             aggregatedRawGroundingChunks.push(...chunk.candidates[0].groundingMetadata.groundingChunks);
           }
         }
@@ -550,7 +550,8 @@ const App: React.FC = () => {
         }
 
         let processedSources: GroundingSource[] = [];
-        if (currentPersona === Persona.ANALISTI && aggregatedRawGroundingChunks.length > 0) {
+        // Only process and store groundingSources if the current persona is NOT Bac Urtaku
+        if (currentPersona !== Persona.BAC_URTAKU && aggregatedRawGroundingChunks.length > 0) {
           const uniqueSourcesMap = new Map<string, GroundingSource>();
           aggregatedRawGroundingChunks.forEach((rawChunk: any) => {
             let sourceToAdd: GroundingSource | null = null;
