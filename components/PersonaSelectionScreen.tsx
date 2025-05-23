@@ -122,7 +122,7 @@ const PersonaSelectionScreen: React.FC<PersonaSelectionScreenProps> = ({ onSelec
             </button>
           </div>
         </div>
-        <p className="text-xs sm:text-sm">&copy; {new Date().getFullYear()} Shqiponja AI mbështetuar nga Mugentix. Të gjitha të drejtat e rezervuara (ose jo, qysh t'dush).</p>
+        <p className="text-xs sm:text-sm">&copy; {new Date().getFullYear()} Shqiponja AI. Të gjitha të drejtat e rezervuara (ose jo, qysh t'dush).</p>
       </footer>
     </div>
   );

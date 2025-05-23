@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Message, SenderType, AttachmentInfo, InlineDataPart, TextPart, ContentPart, GeminiContentRequest, Persona, SalesTopic, ArchivedChat, PersonaDisplayNames, GeminiChatHistoryEntry, GroundingSource } from './types';
 import { createPersonaChatSession, streamMessage, generateImage } from './services/geminiService';
@@ -42,22 +43,22 @@ const getStandardInitialGreetingForPersona = (persona: Persona): string => {
   const personaDisplayName = PersonaDisplayNames[persona] || persona;
   switch (persona) {
     case Persona.BAC_URTAKU:
-      text = `Mirë se erdhe, o biri/bijë e Shqipes! Unë jam ${personaDisplayName} i Shqiponja AI. Fol me mua si me gjyshin tand, për halle e për këshilla, për histori e tradita. Urdhno, çka t'ka sjellë sot te unë?`;
+      text = `Mirë se t'gjej, o bir (a bijë)! Unë jam ${personaDisplayName}. Urdhno, rri knej, n'koftë se ki naj dert a naj muhabet për me kallxue. Për pleqni, për fjalë t'urta, a për histori t'motshme, ktu jam. Po ti, qysh je? A po t'shkon dita mbarë?`;
       break;
     case Persona.DIJETARI:
-      text = `Përshëndetje! Unë jam ${personaDisplayName} i Shqiponja AI. Jam këtu për t'iu përgjigjur pyetjeve tuaja rreth shkencës, historisë dhe çdo dije tjetër. Çfarë dëshironi të mësoni sot?`;
+      text = `Përshëndetje! Unë jam ${personaDisplayName}. Jam këtu për t'iu përgjigjur pyetjeve tuaja rreth shkencës, historisë dhe çdo dije tjetër. Çfarë dëshironi të mësoni sot?`;
       break;
     case Persona.ANALISTI:
-      text = `Mirëdita. Unë jam ${personaDisplayName} i Shqiponja AI. Gati për të diskutuar lajmet më të fundit, politikën dhe zhvillimet gjeopolitike, duke përdorur edhe kërkimin në internet për informacion sa më aktual. Cilat janë çështjet që ju interesojnë?`;
+      text = `Mirëdita. Unë jam ${personaDisplayName}. Gati për të diskutuar lajmet më të fundit, politikën dhe zhvillimet gjeopolitike, duke përdorur edhe kërkimin në internet për informacion sa më aktual. Cilat janë çështjet që ju interesojnë?`;
       break;
     case Persona.HUMORISTI:
-      text = `Hopa! Kush na erdhi? Unë jam ${personaDisplayName} i Shqiponja AI, gati me të ba me qesh me lot, ose të paktën me të ba me ngërdhesh pak! Fol çka t'kesh merak, se bashkë e gjejmë naj batutë a naj tallje! ;)`;
+      text = `Hopa! Kush na erdhi? Unë jam ${personaDisplayName}, gati me të ba me qesh me lot, ose të paktën me të ba me ngërdhesh pak! Fol çka t'kesh merak, se bashkë e gjejmë naj batutë a naj tallje! ;)`;
       break;
     case Persona.ARTISTI:
-      text = `Përshëndetje! Unë jam ${PersonaDisplayNames[Persona.ARTISTI]} i Shqiponja AI. Më jep një përshkrim dhe unë do ta 'pikturoj' për ty një imazh unik. Çfarë ke në mendje sot?`;
+      text = `Përshëndetje! Unë jam ${PersonaDisplayNames[Persona.ARTISTI]}. Më jep një përshkrim dhe unë do ta 'pikturoj' për ty një imazh unik. Çfarë ke në mendje sot?`;
       break;
     case Persona.MESUESI:
-      text = `Mirë se erdhët në klasën time virtuale! Unë jam ${PersonaDisplayNames[Persona.MESUESI]} i Shqiponja AI. Jam këtu për t'ju ndihmuar të mësoni dhe të zbuloni gjëra të reja. Çfarë teme dëshironi të eksplorojmë së bashku sot?`;
+      text = `Mirë se erdhët në klasën time virtuale! Unë jam ${PersonaDisplayNames[Persona.MESUESI]}. Jam këtu për t'ju ndihmuar të mësoni dhe të zbuloni gjëra të reja. Çfarë teme dëshironi të eksplorojmë së bashku sot?`;
       break;
     default: 
       text = "Mirë se vjen te Shqiponja AI! Zgjidh një rol për të filluar bisedën.";
@@ -191,9 +192,13 @@ const App: React.FC = () => {
               sender: SenderType.AI,
               timestamp: new Date(),
             });
+            let followUpGreeting = `Unë jam ${personaDisplayName}. Më lart gjeni sfidën time për ju sot! Mund të zgjidhni t'i përgjigjeni asaj, ose thjesht të më pyesni për çdo gjë tjetër që keni ndërmend. Unë jam gati!`;
+            if (persona === Persona.BAC_URTAKU) {
+              followUpGreeting = `Unë jam ${personaDisplayName}. Atje nalt e ki sfidën teme për ty sot! Ti mundesh me zgjedhë me iu përgjigjë asaj, ose thjesht me m'pytë për çkado tjetër që t'vjen n'kry. Unë jam gati, urdhno!`;
+            }
             effectiveInitialMessages.push({
               id: `initial-ai-greeting-followup-${persona}-${Date.now()}`,
-              text: `Unë jam ${personaDisplayName}. Më lart gjeni sfidën time për ju sot! Mund të zgjidhni t'i përgjigjeni asaj, ose thjesht të më pyesni për çdo gjë tjetër që keni ndërmend. Unë jam gati!`,
+              text: followUpGreeting,
               sender: SenderType.AI,
               timestamp: new Date(),
             });
