@@ -194,7 +194,7 @@ const App: React.FC = () => {
             });
             let followUpGreeting = `Unë jam ${personaDisplayName}. Më lart gjeni sfidën time për ju sot! Mund të zgjidhni t'i përgjigjeni asaj, ose thjesht të më pyesni për çdo gjë tjetër që keni ndërmend. Unë jam gati!`;
             if (persona === Persona.BAC_URTAKU) {
-              followUpGreeting = `Unë jam ${personaDisplayName}. Atje nalt e ki sfidën teme për ty sot! Ti mundesh me zgjedhë me iu përgjigjë asaj, ose thjesht me m'pytë për çkado tjetër që t'vjen n'kry. Unë jam gati, urdhno!`;
+              followUpGreeting = `Unë jam ${personaDisplayName}. Këtë fjalë/pyetje që e sheh nalt, e ndava me ty për me nisë muhabetin me pak mendim të thellë. Merre si t'dukesh ma mirë: mundesh me m'kallxue çka mendon për të, ose lirisht me m'pytë për diçka tjetër që e ki n'qef me ditë. Unë t'pres, urdhno!`;
             }
             effectiveInitialMessages.push({
               id: `initial-ai-greeting-followup-${persona}-${Date.now()}`,

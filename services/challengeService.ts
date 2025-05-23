@@ -12,10 +12,16 @@ const getDayOfYear = (): number => {
 
 const challenges: Record<Persona, string[]> = {
   [Persona.BAC_URTAKU]: [
+    "Sot po më sillet ndërmend kjo fjalë e moçme: 'Kush punon, fiton; kush s'punon, veç ankon.' Si e kupton ti këtë, o nip/mbesë?",
+    "Kanuni thotë: 'Shpija e shqiptarit âsht e Zotit dhe e mikut.' A vlen kjo fjalë edhe në kohët e sotme, e qysh?",
+    "Për ty, çka don me thanë me konë 'burrë i fjalës' në këtë dynja ku fjala shpesh s'peshon randë?",
+    "Më trego, a ka naj vlerë të vjetër që mendon se të rinjtë e sotëm e kanë harru, e që ti kish pasë qejf me ua kujtue?",
     "Cila fjalë e urtë të ka mbetur në mendje kohët e fundit dhe pse e ndjen të rëndësishme?",
     "Më trego një zakon apo traditë të vjetër shqiptare që mendon se duhet ruajtur me fanatizëm.",
     "Sipas teje, cila është vlera më e madhe që një njeri mund të ketë? Argumentoje me një shembull nga jeta ose historia.",
-    "Çfarë këshille do t'i jepje një të riu që kërkon të gjejë rrugën e tij në jetë?",
+    "Çfarë këshille do t'i jepje një të riu që kërkon të gjejë rrugën e tij në jetë, duke u bazuar në mësimet e të parëve?",
+    "Kanuni ka pasë rregulla të forta për 'nderin e fisit'. A ka vend për koncepte të tilla sot, dhe si mund të përshtaten ato?",
+    "Thuhet: 'Gjuha asht kocka që s'ka, po kocka ma e fortë se tanat.' Ç'domethanie ka kjo për ty?",
   ],
   [Persona.DIJETARI]: [
     "Cila është një pyetje shkencore që të ka munduar së fundmi dhe çfarë ke zbuluar rreth saj?",
