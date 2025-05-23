@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Message, SenderType, AttachmentInfo, InlineDataPart, TextPart, ContentPart, GeminiContentRequest, Persona, SalesTopic, ArchivedChat, PersonaDisplayNames, GeminiChatHistoryEntry, GroundingSource } from './types';
 import { createPersonaChatSession, streamMessage, generateImage } from './services/geminiService';
@@ -13,6 +11,7 @@ import PersonaSelectionScreen from './components/PersonaSelectionScreen';
 import FloatingContact from './components/FloatingContact';
 import SalesAssistantModal from './components/SalesAssistantModal';
 import ArchiveListScreen from './components/ArchiveListScreen';
+import CursorBeam from './components/CursorBeam';
 
 // Utility function to convert file to base64
 const convertFileToInlineData = (file: File): Promise<InlineDataPart> => {
@@ -683,6 +682,7 @@ const App: React.FC = () => {
 
   return (
     <>
+      <CursorBeam />
       {renderCurrentView()}
       {error && (
         <div 
