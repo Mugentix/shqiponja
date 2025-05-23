@@ -1,23 +1,28 @@
-
 import React from 'react';
 
 interface IconProps {
   className?: string;
 }
 
-const AnalistiIcon: React.FC<IconProps> = ({ className }) => (
+const AnalistiIcon: React.FC<IconProps> = ({ className }: IconProps) => (
   <svg 
     xmlns="http://www.w3.org/2000/svg" 
-    fill="none" 
-    viewBox="0 0 24 24" 
-    strokeWidth={1.5} 
+    fill="currentColor" 
+    viewBox="0 0 256 173" 
+    strokeWidth={2.5} 
     stroke="currentColor" 
     className={className || "w-6 h-6"}
     aria-hidden="true"
+    role="img"
   >
-    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h12A2.25 2.25 0 0020.25 14.25V3M3.75 20.25h16.5M3.75 12H20.25m-16.5 0V21m16.5-9V21" />
-    <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 7.5h3M7.5 10.5h6M15 7.5h1.5m-1.5 3h1.5" />
-    {/* Represents a newspaper or news feed */}
+    <path d="M128.253,56.864c15.186,0,27.432-12.247,27.432-27.432S143.536,2,128.253,2
+      c-15.186,0-27.432,12.247-27.432,27.432C100.918,44.716,113.165,56.864,128.253,56.864z M64.571,136.32h-49.28
+      c-15.969,0-16.851-24.395,0.294-24.395H58.3l24.493-36.054c7.25-9.895,15.48-14.598,27.138-14.598h36.544
+      c11.659,0,19.888,4.311,27.138,14.598l24.591,36.054h43.01c17.243,0,16.165,24.395,0.588,24.395h-49.28
+      c-3.919,0-8.622-1.372-11.365-5.584l-18.811-26.844l-0.098,67.209H94.844l-0.098-67.209l-18.811,26.844
+      C73.192,134.85,68.49,136.32,64.571,136.32z"/>
+    <polygon points="65,76.8 36,42 7,76.8 24.355,76.8 24.355,100 47.6,100 47.6,76.8 "/>
+    <polygon points="191,65.2 220,100 249,65.2 231.645,65.2 231.645,42 208.4,42 208.4,65.2 "/>
   </svg>
 );
 
