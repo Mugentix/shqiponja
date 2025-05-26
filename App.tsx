@@ -648,6 +648,7 @@ const App: React.FC = () => {
               messages={messages} 
               onRegenerateImage={currentPersona === Persona.ARTISTI ? handleRegenerateImage : undefined}
               onCopyText={handleCopyTextToClipboard}
+              isLoading={isLoading}
             />
             <ChatInput 
               onSendMessage={handleSendMessage} 

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Message, SenderType, MessageItemProps, Persona } from '../types';
 import BotIcon from './icons/BotIcon';
@@ -14,14 +13,13 @@ const MessageItem: React.FC<MessageItemProps> = ({ message, onRegenerateImage, o
   const isUser = message.sender === SenderType.USER;
   const hasSources = message.groundingSources && message.groundingSources.length > 0;
   const isAiImage = message.sender === SenderType.AI && message.imageUrl;
-  const [copiedState, setCopiedState] = useState<{ type: string, id: string | null } | null>(null); 
+  const [copiedState, setCopiedState] = useState<{ id: string; type: 'text' | 'prompt' } | null>(null);
 
-
-  const handleCopy = (textToCopy: string, type: 'text' | 'prompt') => {
+  const handleCopy = (text: string, type: 'text' | 'prompt') => {
     if (onCopyText) {
-      onCopyText(textToCopy);
-      setCopiedState({ type, id: message.id });
-      setTimeout(() => setCopiedState(null), 1500);
+      onCopyText(text);
+      setCopiedState({ id: message.id, type });
+      setTimeout(() => setCopiedState(null), 2000);
     }
   };
   
@@ -46,27 +44,31 @@ const MessageItem: React.FC<MessageItemProps> = ({ message, onRegenerateImage, o
   const originalPromptForThisImage = message.originalPromptForImage || (isAiImage ? extractPromptFromAiMessage(message.text) : null);
 
   return (
-    <div className={`flex mb-4 ${isUser ? 'justify-end' : 'justify-start'} animate-message-appear`}>
+    <div 
+      className={`flex mb-4 ${isUser ? 'justify-end' : 'justify-start'} 
+        animate-message-appear opacity-0 translate-y-4 animate-[message-appear_0.3s_ease-out_forwards]`}
+    >
       <div className={`flex items-end max-w-xs md:max-w-md lg:max-w-lg xl:max-w-2xl ${isUser ? 'flex-row-reverse' : 'flex-row'}`}>
-        <div className={`p-1.5 rounded-full flex items-center justify-center shadow ${isUser ? 'ml-2 bg-slate-500' : 'mr-2 bg-red-600'}`}>
+        <div className={`p-1.5 rounded-full flex items-center justify-center shadow-lg transform transition-transform hover:scale-110 
+          ${isUser ? 'ml-2 bg-gradient-to-br from-slate-400 to-slate-600' : 'mr-2 bg-gradient-to-br from-red-500 to-red-700'}`}>
           {isUser ? 
             <UserIcon className="w-4 h-4 sm:w-5 sm:h-5 text-stone-100" /> : 
             <BotIcon className="w-4 h-4 sm:w-5 sm:h-5 text-stone-100" />
           }
         </div>
         <div
-          className={`relative px-3 py-2 sm:px-4 sm:py-3 rounded-2xl shadow-2xl ${
-            isUser 
+          className={`relative px-3 py-2 sm:px-4 sm:py-3 rounded-2xl shadow-2xl transform transition-all duration-200 hover:scale-[1.02]
+            ${isUser 
               ? 'bg-gradient-to-br from-slate-500 via-slate-600 to-slate-700 text-stone-100 rounded-br-none' 
               : 'bg-gradient-to-br from-red-500 via-red-600 to-red-700 text-stone-100 rounded-bl-none'
-          }`}
+            }`}
         >
           {isAiImage && (
-            <div className="mb-2">
+            <div className="mb-2 transform transition-transform duration-300 hover:scale-[1.02]">
               <img 
                 src={message.imageUrl} 
                 alt={originalPromptForThisImage || "Imazh i gjeneruar nga AI"}
-                className="rounded-lg shadow-md max-w-full h-auto"
+                className="rounded-lg shadow-lg max-w-full h-auto"
                 style={{ maxHeight: '300px', objectFit: 'contain' }}
               />
             </div>
@@ -74,7 +76,12 @@ const MessageItem: React.FC<MessageItemProps> = ({ message, onRegenerateImage, o
 
           {message.text && (
             isUser || !message.imageUrl || (message.imageUrl && message.text !== 'Po pikturoj idenë tënde...' && !message.text.startsWith("Ja çfarë krijova")) || (message.text.startsWith("Ja çfarë krijova")) ? (
-                 message.sender === SenderType.AI ? <MarkdownRenderer content={message.text} /> : <p className="text-sm sm:text-base whitespace-pre-wrap">{message.text}</p>
+              <div className="prose prose-invert max-w-none">
+                {message.sender === SenderType.AI ? 
+                  <MarkdownRenderer content={message.text} /> : 
+                  <p className="text-sm sm:text-base whitespace-pre-wrap">{message.text}</p>
+                }
+              </div>
             ) : null
           )}
            {message.text.startsWith("Ja çfarë krijova") && isAiImage && (
@@ -153,12 +160,12 @@ const MessageItem: React.FC<MessageItemProps> = ({ message, onRegenerateImage, o
             {message.text && !isAiImage && ( // Show copy text if text exists and it's not an AI image's meta-text (which has its own copy prompt)
               <button
                 onClick={() => handleCopy(message.text, 'text')}
-                className="p-1.5 text-stone-400 hover:text-red-400 rounded-full transition-colors duration-150"
+                className="p-1.5 text-stone-400 hover:text-red-400 rounded-full transition-all duration-200 hover:bg-white/10"
                 aria-label="Kopjo tekstin"
                 title="Kopjo tekstin"
               >
                 {copiedState?.type === 'text' && copiedState.id === message.id ? (
-                  <span className="text-xs px-1">U kopjua!</span>
+                  <span className="text-xs px-1 animate-fade-in">U kopjua!</span>
                 ) : (
                   <CopyIcon className="w-4 h-4" /> 
                 )}
