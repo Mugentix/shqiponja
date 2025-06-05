@@ -12,6 +12,7 @@ import FloatingContact from './components/FloatingContact';
 import SalesAssistantModal from './components/SalesAssistantModal';
 import ArchiveListScreen from './components/ArchiveListScreen';
 import CursorBeam from './components/CursorBeam';
+import DailyChallengeModal from './components/DailyChallengeModal';
 
 // Utility function to convert file to base64
 const convertFileToInlineData = (file: File): Promise<InlineDataPart> => {
@@ -78,6 +79,7 @@ const App: React.FC = () => {
   const [salesAssistantTopic, setSalesAssistantTopic] = useState<SalesTopic | null>(null);
 
   const [archivedChats, setArchivedChats] = useState<ArchivedChat[]>([]);
+  const [dailyChallengeText, setDailyChallengeText] = useState<string | null>(null);
   
   const initialMessageCountForCurrentSessionRef = useRef<number>(0);
   const continuedArchivedChatIdRef = useRef<string | null>(null); 
@@ -184,14 +186,15 @@ const App: React.FC = () => {
         } else {
           // New chat
           const dailyChallenge = getDailyChallengeForPersona(persona);
-          if (dailyChallenge) {
-            effectiveInitialMessages.push({
-              id: `ai-daily-challenge-${persona}-${Date.now()}`,
-              text: `⚡ **Sfidë e Ditës!** ${dailyChallenge}`,
-              sender: SenderType.AI,
-              timestamp: new Date(),
-            });
-            let followUpGreeting = `Unë jam ${personaDisplayName}. Më lart gjeni sfidën time për ju sot! Mund të zgjidhni t'i përgjigjeni asaj, ose thjesht të më pyesni për çdo gjë tjetër që keni ndërmend. Unë jam gati!`;
+            if (dailyChallenge) {
+              effectiveInitialMessages.push({
+                id: `ai-daily-challenge-${persona}-${Date.now()}`,
+                text: `⚡ **Sfidë e Ditës!** ${dailyChallenge}`,
+                sender: SenderType.AI,
+                timestamp: new Date(),
+              });
+              setDailyChallengeText(dailyChallenge);
+              let followUpGreeting = `Unë jam ${personaDisplayName}. Më lart gjeni sfidën time për ju sot! Mund të zgjidhni t'i përgjigjeni asaj, ose thjesht të më pyesni për çdo gjë tjetër që keni ndërmend. Unë jam gati!`;
             if (persona === Persona.BAC_URTAKU) {
               followUpGreeting = `Unë jam ${personaDisplayName}. Këtë fjalë/pyetje që e sheh nalt, e ndava me ty për me nisë muhabetin me pak mendim të thellë. Merre si t'dukesh ma mirë: mundesh me m'kallxue çka mendon për të, ose lirisht me m'pytë për diçka tjetër që e ki n'qef me ditë. Unë t'pres, urdhno!`;
             }
@@ -235,7 +238,8 @@ const App: React.FC = () => {
   }, []);
   
   const handleSelectPersona = (selectedPersona: Persona) => {
-    attemptArchiveCurrentChat(); 
+    attemptArchiveCurrentChat();
+    setDailyChallengeText(null);
     initializeNewChat(selectedPersona, undefined, undefined, null); // Pass undefined for initialMessagesOverride
   };
   
@@ -244,8 +248,9 @@ const App: React.FC = () => {
     setCurrentPersona(null);
     setPersonaChatSession(null);
     setMessages([]);
+    setDailyChallengeText(null);
     setCurrentView('personaSelection');
-    setError(null); 
+    setError(null);
     initialMessageCountForCurrentSessionRef.current = 0;
      if (currentAbortControllerRef.current) {
       currentAbortControllerRef.current.abort();
@@ -253,9 +258,14 @@ const App: React.FC = () => {
     }
   };
 
+  const handleCloseDailyChallengeModal = () => {
+    setDailyChallengeText(null);
+  };
+
   const handleNavigateToArchive = () => {
     attemptArchiveCurrentChat();
-    setArchivedChats(getArchivedChats()); 
+    setArchivedChats(getArchivedChats());
+    setDailyChallengeText(null);
     setCurrentView('archiveList');
   };
 
@@ -685,9 +695,16 @@ const App: React.FC = () => {
     <>
       <CursorBeam />
       {renderCurrentView()}
+      {dailyChallengeText && (
+        <DailyChallengeModal
+          isOpen={!!dailyChallengeText}
+          challengeText={dailyChallengeText}
+          onClose={handleCloseDailyChallengeModal}
+        />
+      )}
       {error && (
-        <div 
-            className="fixed top-5 left-1/2 -translate-x-1/2 z-[100] bg-red-900 border border-red-700 text-red-200 p-3 w-auto max-w-md rounded-lg shadow-xl text-sm animate-message-appear" 
+        <div
+            className="fixed top-5 left-1/2 -translate-x-1/2 z-[100] bg-red-900 border border-red-700 text-red-200 p-3 w-auto max-w-md rounded-lg shadow-xl text-sm animate-message-appear"
             role="alert"
         >
           <div className="flex items-center justify-between">
